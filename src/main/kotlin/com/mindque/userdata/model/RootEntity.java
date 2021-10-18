@@ -4,6 +4,8 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,40 +17,70 @@ public class RootEntity {
     @JsonIgnore
     private String pk;
 
-    @JsonIgnore
-    private String sk;
-
-    @JsonIgnore
-    private String tag;
-
     @DynamoDBHashKey(attributeName = "pk")
     public String getPk() {
         return pk;
     }
 
-    public void setPk(String pk) {
-        this.pk = pk;
-    }
+    @JsonIgnore
+    private String sk;
 
     @DynamoDBRangeKey(attributeName = "sk")
     public String getSk() {
         return sk;
     }
 
-    public void setSk(String sk) {
-        this.sk = sk;
-    }
+    @JsonIgnore
+    private String tag;
 
     @DynamoDBIndexHashKey(globalSecondaryIndexName = "sk_by_tag")
     public String getTag() {
         return tag;
     }
 
+    public void setPk(String pk) {
+        this.pk = pk;
+    }
+
+    public void setSk(String sk) {
+        this.sk = sk;
+    }
+
     public void setTag(String tag) {
         this.tag = tag;
     }
 
+    // ------  ------  ------  ------ Utility ------  ------  ------  ------ \\
+
+    @DynamoDBAttribute
+    private String userId;
+
+    @DynamoDBAttribute
+    private String dataPointId;
+
+    @JsonIgnore
+    @Setter
+    @Getter
+    private String errorMessage;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getDataPointId() {
+        return dataPointId;
+    }
+
+    public void setDataPointId(String dataPointId) {
+        this.dataPointId = dataPointId;
+    }
+
     // ------  ------  ------  ------ Userdata ------  ------  ------  ------ \\
+
 
     @DynamoDBAttribute
     @Setter
@@ -88,17 +120,17 @@ public class RootEntity {
     @DynamoDBAttribute
     @Setter
     @Getter
-    private String ninetyFiveInterval;
+    private Float ninetyFiveInterval;
 
     @DynamoDBAttribute
     @Setter
     @Getter
-    private String ninetyNineInterval;
+    private Float ninetyNineInterval;
 
     @DynamoDBAttribute
     @Setter
     @Getter
-    private String tags;
+    private List<String> tags;
 
     @DynamoDBAttribute
     @Setter
