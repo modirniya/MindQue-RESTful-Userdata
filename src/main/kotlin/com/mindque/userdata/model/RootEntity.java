@@ -17,23 +17,24 @@ public class RootEntity {
     @JsonIgnore
     private String pk;
 
+    @JsonIgnore
+    private String sk;
+
+    @JsonIgnore
+    private String tag;
+
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = "sk_by_tag")
     @DynamoDBHashKey(attributeName = "pk")
     public String getPk() {
         return pk;
     }
-
-    @JsonIgnore
-    private String sk;
 
     @DynamoDBRangeKey(attributeName = "sk")
     public String getSk() {
         return sk;
     }
 
-    @JsonIgnore
-    private String tag;
-
-    @DynamoDBIndexHashKey(globalSecondaryIndexName = "sk_by_tag")
+    @DynamoDBIndexRangeKey(globalSecondaryIndexName = "sk_by_tag")
     public String getTag() {
         return tag;
     }
@@ -50,6 +51,7 @@ public class RootEntity {
         this.tag = tag;
     }
 
+
     // ------  ------  ------  ------ Utility ------  ------  ------  ------ \\
 
     @DynamoDBAttribute
@@ -57,11 +59,6 @@ public class RootEntity {
 
     @DynamoDBAttribute
     private String dataPointId;
-
-    @JsonIgnore
-    @Setter
-    @Getter
-    private String errorMessage;
 
     public String getUserId() {
         return userId;
@@ -128,8 +125,6 @@ public class RootEntity {
     private Float ninetyNineInterval;
 
     @DynamoDBAttribute
-    @Setter
-    @Getter
     private List<String> tags;
 
     @DynamoDBAttribute
@@ -137,6 +132,13 @@ public class RootEntity {
     @Getter
     private String version;
 
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
 }
 
 
